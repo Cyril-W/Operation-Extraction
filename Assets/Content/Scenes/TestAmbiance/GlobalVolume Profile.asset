@@ -16,6 +16,61 @@ MonoBehaviour:
   intensity:
     m_OverrideState: 1
     m_Value: 0.1
+--- !u!114 &-5519357804449354673
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a074ec59f6e910b4e8c49f57e56cf95a, type: 3}
+  m_Name: VolumetricFogVolumeComponent
+  m_EditorClassIdentifier: 
+  active: 1
+  distance:
+    m_OverrideState: 0
+    m_Value: 128
+  baseHeight:
+    m_OverrideState: 1
+    m_Value: 0
+  maximumHeight:
+    m_OverrideState: 1
+    m_Value: 50
+  density:
+    m_OverrideState: 1
+    m_Value: 0.382
+  attenuationDistance:
+    m_OverrideState: 0
+    m_Value: 128
+  tint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  mainLightAnisotropy:
+    m_OverrideState: 0
+    m_Value: 0.4
+  mainLightScattering:
+    m_OverrideState: 0
+    m_Value: 0.15
+  additionalLightsAnisotropy:
+    m_OverrideState: 0
+    m_Value: 0.25
+  additionalLightsScattering:
+    m_OverrideState: 0
+    m_Value: 1
+  additionalLightsRadius:
+    m_OverrideState: 1
+    m_Value: 0.363
+  maxSteps:
+    m_OverrideState: 0
+    m_Value: 64
+  blurIterations:
+    m_OverrideState: 0
+    m_Value: 2
+  enabled:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &-3258088122520237314
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -105,6 +160,8 @@ MonoBehaviour:
   - {fileID: -5755431307923477422}
   - {fileID: -143017823133004507}
   - {fileID: 5039276648093763570}
+  - {fileID: -5519357804449354673}
+  - {fileID: 6556166754122970093}
 --- !u!114 &100705422277441822
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -173,3 +230,25 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 1
     m_Value: 1
+--- !u!114 &6556166754122970093
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0.21531099}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0.3827751}
+  gain:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.19138758}
