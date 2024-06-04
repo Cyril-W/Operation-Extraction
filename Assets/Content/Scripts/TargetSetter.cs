@@ -3,6 +3,7 @@ using UnityEngine;
 public class TargetSetter : MonoBehaviour {
     [Space]
     [SerializeField] Transform target;
+    [SerializeField] float verticalOffset = 0.5f;
     [Space]
     [SerializeField] float maxDistance = 100f;
     [SerializeField] LayerMask layerMask;
@@ -22,7 +23,7 @@ public class TargetSetter : MonoBehaviour {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, maxDistance, layerMask)) {
             mousePosition = hit.point;
-            mousePosition.y = 0;
+            mousePosition.y += verticalOffset;
             return true;
         }
         return false;

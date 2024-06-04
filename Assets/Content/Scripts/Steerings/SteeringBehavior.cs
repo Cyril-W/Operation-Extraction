@@ -47,7 +47,7 @@ public class SteeringBehavior : MonoBehaviour {
             accelaration.Normalize();
             accelaration *= maxAcceleration;
         }
-        rb.AddForce(accelaration);
+        rb.AddForce(accelaration, ForceMode.VelocityChange);
         if (rotation != 0) {
             rb.rotation = Quaternion.Euler(0, rotation, 0);
         }
