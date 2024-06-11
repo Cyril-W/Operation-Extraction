@@ -4,49 +4,50 @@ using UnityEngine;
 
 public class CameraPlayer : MonoBehaviour
 {
-    [SerializeField] GameObject Player;
+    [System.Serializable]
+    public class CameraParameters
+    {
+        public float DampeningSpeed = 2f;
 
-    [SerializeField, Range(0, 10)] float DampeningSpeed = 2;
+        [Space(10)]
 
-    [SerializeField] float CamDistance = .5f;
-    [SerializeField] float CamHeight = .15f;
+        public float CamDistance = .5f;
+        public float CamHeight = .15f;
 
-    [SerializeField] float LookAhead = .05f;
+        public float LookAhead = .05f;
 
-    [SerializeField, Range(0, 1)] float Side = .5f;
+        [Space(10)]
+
+        public float Side = .5f;
+    }
+
+    public GameObject Player;
+
+    public CameraParameters Parameters;
 
     float d, h, l, s;
 
     void OnEnable()
     {
-        SetValues(true);
+        d = Parameters.CamDistance;
+        h = Parameters.CamHeight;
+        l = Parameters.LookAhead;
+        s = Mathf.Clamp01(Parameters.Side);
     }
 
     void Update()
     {
         if (!Player) return;
 
-        SetValues();
-
         SetCamera();
     }
 
-    void SetValues(bool OnEnable = false)
+    public void SetParameters(CameraParameters camP)
     {
-        if (OnEnable)
-        {
-            d = CamDistance;
-            h = CamHeight;
-            l = LookAhead;
-            s = Mathf.Clamp01(Side);
-        }
-        else
-        {
-            d = Mathf.Lerp(d, CamDistance, Time.deltaTime * DampeningSpeed);
-            h = Mathf.Lerp(h, CamHeight, Time.deltaTime * DampeningSpeed);
-            l = Mathf.Lerp(l, LookAhead, Time.deltaTime * DampeningSpeed);
-            s = Mathf.Clamp01(Mathf.Lerp(s, Side, Time.deltaTime * DampeningSpeed));
-        }
+        d = Mathf.Lerp(d, camP.CamDistance, Time.deltaTime * Parameters.DampeningSpeed);
+        h = Mathf.Lerp(h, camP.CamHeight, Time.deltaTime * Parameters.DampeningSpeed);
+        l = Mathf.Lerp(l, camP.LookAhead, Time.deltaTime * Parameters.DampeningSpeed);
+        s = Mathf.Clamp01(Mathf.Lerp(s, camP.Side, Time.deltaTime * Parameters.DampeningSpeed));
     }
 
 
@@ -61,7 +62,8 @@ public class CameraPlayer : MonoBehaviour
 
         pos += Vector3.up * h;
 
-        transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * DampeningSpeed);
+        //transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * Parameters.DampeningSpeed);
+        transform.position = pos;
 
         Vector3 lookAt = Player.transform.position + Player.transform.forward * l;
 
@@ -70,8 +72,8 @@ public class CameraPlayer : MonoBehaviour
         transform.rotation = rot;
     }
 
-    public void SetCamDist(float f) { CamDistance = f; }
-    public void SetCamHeight(float f) { CamHeight = f; }
-    public void SetLookAhead(float f) { LookAhead = f; }
-    public void SetSide(float f) { Side = f; }
+    public void SetCamDist(float f) { Parameters.CamDistance = f; }
+    public void SetCamHeight(float f) { Parameters.CamHeight = f; }
+    public void SetLookAhead(float f) { Parameters.LookAhead = f; }
+    public void SetSide(float f) { Parameters.Side = f; }
 }
