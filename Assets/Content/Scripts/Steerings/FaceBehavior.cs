@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class FaceBehavior : Steering {
     [Space]
-    [SerializeField] Transform self;
-    [SerializeField] Transform target;
+    [SerializeField] Color lineColor = Color.magenta;
 
-    public override SteeringData GetSteering(SteeringBehavior steeringBehavior) { 
+    public override SteeringData GetSteering() {
         var steering = new SteeringData();
-        if (self && target) {
-            var direction = target.position - self.position;
-            var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            if (steeringBehavior) {
-                steering.angular = Mathf.LerpAngle(transform.rotation.eulerAngles.y, angle, steeringBehavior.MaxAngularAcceleration * Time.deltaTime);
-                steering.linear = Vector3.zero;
-            }
+        var direction = correctedTargetPosition - selfPosition;
+        var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        if (steeringBehavior) {
+            steering.angular = Mathf.LerpAngle(steeringBehavior.Orientation, angle, steeringBehavior.MaxAngularAcceleration * Time.deltaTime);
+            steering.linear = Vector3.zero;
         }
         return steering;
+    }
+
+    void OnDrawGizmosSelected() {
+        Gizmos.color = lineColor;
+        Gizmos.DrawLine(correctedTargetPosition, selfPosition);
     }
 }

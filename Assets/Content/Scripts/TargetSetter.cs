@@ -1,8 +1,8 @@
 using UnityEngine;
 
 public class TargetSetter : MonoBehaviour {
-    [Space]
     [SerializeField] Transform target;
+    [Space]
     [SerializeField] float verticalOffset = 0.5f;
     [Space]
     [SerializeField] float maxDistance = 100f;
@@ -11,9 +11,10 @@ public class TargetSetter : MonoBehaviour {
     Vector3 mousePosition;
 
     void FixedUpdate() {
-        if (target && Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0)) {
             if (GetMousePosition()) {
-                target.position = mousePosition;
+                if (SteeringBehavior.Instance) { SteeringBehavior.Instance.SetTarget(mousePosition); }
+                if (target) { target.position = mousePosition; }
             }
         }
     }

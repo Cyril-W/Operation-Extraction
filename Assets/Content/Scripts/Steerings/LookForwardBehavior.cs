@@ -1,10 +1,7 @@
 using UnityEngine;
 
 public class LookForwardBehavior : Steering {
-    [Space]
-    [SerializeField] Transform self;
-
-    public override SteeringData GetSteering(SteeringBehavior steeringBehavior) { 
+    public override SteeringData GetSteering() { 
         var steering = new SteeringData();
             if (steeringBehavior) {
                 var velocity = steeringBehavior.GetVelocity();
@@ -12,9 +9,7 @@ public class LookForwardBehavior : Steering {
                     return steering;
                 }
                 var angle = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
-                if (self) {
-                    steering.angular = Mathf.LerpAngle(self.rotation.eulerAngles.y, angle, steeringBehavior.MaxAngularAcceleration * Time.deltaTime);
-                }
+                steering.angular = Mathf.LerpAngle(steeringBehavior.Orientation, angle, steeringBehavior.MaxAngularAcceleration * Time.deltaTime);
                 steering.linear = Vector3.zero;
             }
         return steering;
