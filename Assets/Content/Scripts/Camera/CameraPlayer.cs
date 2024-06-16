@@ -27,6 +27,15 @@ public class CameraPlayer : MonoBehaviour
 
     float d, h, l, s;
 
+    [SerializeField] Vector2 ZTranslation = new Vector2(-.2f, .2f);
+
+    void OnValidate()
+    {
+        SetParameters(Parameters, true);
+
+        SetCamera();
+    }
+
     void OnEnable()
     {
         d = Parameters.CamDistance;
@@ -42,12 +51,22 @@ public class CameraPlayer : MonoBehaviour
         SetCamera();
     }
 
-    public void SetParameters(CameraParameters camP)
+    public void SetParameters(CameraParameters camP, bool NoLerp = false)
     {
-        d = Mathf.Lerp(d, camP.CamDistance, Time.deltaTime * Parameters.DampeningSpeed);
-        h = Mathf.Lerp(h, camP.CamHeight, Time.deltaTime * Parameters.DampeningSpeed);
-        l = Mathf.Lerp(l, camP.LookAhead, Time.deltaTime * Parameters.DampeningSpeed);
-        s = Mathf.Clamp01(Mathf.Lerp(s, camP.Side, Time.deltaTime * Parameters.DampeningSpeed));
+        if (NoLerp)
+        {
+            d = camP.CamDistance;
+            h = camP.CamHeight;
+            l = camP.LookAhead;
+            s = camP.Side;
+        }
+        else
+        {
+            d = Mathf.Lerp(d, camP.CamDistance, Time.deltaTime * Parameters.DampeningSpeed);
+            h = Mathf.Lerp(h, camP.CamHeight, Time.deltaTime * Parameters.DampeningSpeed);
+            l = Mathf.Lerp(l, camP.LookAhead, Time.deltaTime * Parameters.DampeningSpeed);
+            s = Mathf.Clamp01(Mathf.Lerp(s, camP.Side, Time.deltaTime * Parameters.DampeningSpeed));
+        }
     }
 
 
@@ -56,7 +75,7 @@ public class CameraPlayer : MonoBehaviour
     {
         Vector3 pos = Player.transform.position;
 
-        pos.z = 0;
+        pos.z = Mathf.Clamp(pos.z, ZTranslation.x, ZTranslation.y);
 
         pos += Quaternion.Lerp(Quaternion.AngleAxis(90, Vector3.up), Quaternion.AngleAxis(-90, Vector3.up), s) * Vector3.forward * -d;
 

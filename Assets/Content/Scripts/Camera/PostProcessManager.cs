@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+[ExecuteInEditMode]
 public class PostProcessManager : MonoBehaviour
 {
     [SerializeField] GameObject Player;
