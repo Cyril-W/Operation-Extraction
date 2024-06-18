@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class NavMeshAgentManager : MonoBehaviour {
+    public static NavMeshAgentManager Instance { get; private set; }
+
+    [SerializeField] bool isPlayer = false;
     [SerializeField, ReadOnly] NavMeshAgent agent;
     [SerializeField] Transform target;
     [SerializeField] float distance = 0.1f;
@@ -11,8 +14,10 @@ public class NavMeshAgentManager : MonoBehaviour {
     [SerializeField] float wanderRadius = 1f;
     [SerializeField] Color wanderColor = Color.red;
 
+    bool initialWander;
     float lastWander = 0f;
     Vector3 newTargetPosition;
+    Transform initialTarget;
 
     void OnValidate() {
         if (!agent) { agent = GetComponent<NavMeshAgent>(); }
@@ -20,6 +25,31 @@ public class NavMeshAgentManager : MonoBehaviour {
 
     void Start() {
         if (!agent) { agent = GetComponent<NavMeshAgent>(); }
+        if (isPlayer) { Instance = this; }
+        initialTarget = target;
+        initialWander = wander;
+    }
+
+    void OnEnable() {
+        if (agent && !isPlayer) {
+            agent.enabled = true;
+        }
+    }
+
+    void OnDisable() {
+        if (agent && !isPlayer) {
+            agent.enabled = false;
+        }
+    }
+
+    public void SetTarget(Transform newTarget) {
+        target = newTarget;
+        wander = false;
+    }
+
+    public void RestoreTarget() {
+        target = initialTarget;
+        wander = initialWander;
     }
 
     void FixedUpdate() {
@@ -42,6 +72,8 @@ public class NavMeshAgentManager : MonoBehaviour {
     void OnDrawGizmosSelected() {
         Gizmos.color = wanderColor;
         Gizmos.DrawSphere(newTargetPosition, 0.1f);
-        Gizmos.DrawWireSphere(wanderFromSelf ? target.position : agent.transform.position, wanderRadius);
+        if (wanderFromSelf && target || !wanderFromSelf && agent) {
+            Gizmos.DrawWireSphere(wanderFromSelf ? target.position : agent.transform.position, wanderRadius);
+        }
     }
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public class TargetSetter : MonoBehaviour {
+    public static TargetSetter Instance { get; private set; }
+
     [SerializeField] Transform target;
     [Space]
     [SerializeField] float verticalOffset = 0.5f;
@@ -9,6 +11,10 @@ public class TargetSetter : MonoBehaviour {
     [SerializeField] LayerMask layerMask;
 
     Vector3 mousePosition;
+
+    void Start() {
+        Instance = this;
+    }
 
     void FixedUpdate() {
         if (Input.GetMouseButton(0)) {
