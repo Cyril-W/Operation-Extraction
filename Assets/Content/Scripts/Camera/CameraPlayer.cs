@@ -73,6 +73,8 @@ public class CameraPlayer : MonoBehaviour
     [ContextMenu("SetCamera")]
     void SetCamera()
     {
+        if (!Player) return;
+
         Vector3 pos = Player.transform.position;
 
         pos.z = Mathf.Clamp(pos.z, ZTranslation.x, ZTranslation.y);
