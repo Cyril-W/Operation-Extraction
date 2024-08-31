@@ -13,7 +13,11 @@ public class PostProcessManager : MonoBehaviour
 
     [SerializeField] bool DynamicDOF;
 
+    public Texture CurrentOverlayedTex;
+
     DepthOfField dofComponent;
+
+    Texture lastTex;
 
     void OnEnable()
     {
@@ -30,6 +34,12 @@ public class PostProcessManager : MonoBehaviour
         if (Player && DynamicDOF && dofComponent)
         {
             dofComponent.focusDistance.value = Vector3.Distance(transform.position, Player.transform.position);
+        }
+
+        if (CurrentOverlayedTex && lastTex != CurrentOverlayedTex)
+        {
+            lastTex = CurrentOverlayedTex;
+            Shader.SetGlobalTexture("_NearTeethOverlayTex", CurrentOverlayedTex);
         }
     }
 }
